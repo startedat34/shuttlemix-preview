@@ -99,14 +99,14 @@
       touch-action: pan-x pan-y;
     }
     .table-inner {
-      width: max-content;
-      min-width: 100%;
+      width: 100%;
+      min-width: 0;
     }
     .header-row, .row {
       display: grid;
-      grid-template-columns: 30px 1.25fr 56px 46px 66px 52px 48px;
+      grid-template-columns: 28px minmax(96px, 1.75fr) 44px 34px 58px 46px 38px;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
     .header-row {
       color: #6a769f;
@@ -132,8 +132,17 @@
       justify-self: start;
     }
     .col-games { text-align: center; }
+    .col-priority,
+    .col-skip {
+      text-align: center;
+      justify-self: center;
+    }
     .col-actions { text-align: right; }
-    .toggle-wrap { text-align: center; }
+    .toggle-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     .danger { background: #d9585f; }
     button {
       border: 0;
@@ -194,8 +203,8 @@
       .table-inner { width: max-content; min-width: 100%; }
       .header-row, .row {
         font-size: 12px;
-        grid-template-columns: 24px 1.2fr 52px 40px 62px 48px 42px;
-        gap: 3px;
+        grid-template-columns: 24px minmax(86px, 1.65fr) 40px 30px 54px 42px 34px;
+        gap: 2px;
       }
       button.small { padding: 4px 5px; font-size: 10px; }
       .pair-grid { grid-template-columns: 1fr; }
@@ -227,7 +236,7 @@
         <div class="card">
           <div class="table-scroll">
             <div class="table-inner">
-              <div class="header-row"><div>#</div><div>Name</div><div class="col-skill">Skill</div><div class="col-games">GP</div><div>Priority</div><div>Skip</div><div class="col-actions">Act</div></div>
+              <div class="header-row"><div>#</div><div>Name</div><div class="col-skill">Skill</div><div class="col-games">GP</div><div class="col-priority">Priority</div><div class="col-skip">Skip</div><div class="col-actions">Act</div></div>
               <div id="playersTable"></div>
             </div>
           </div>
