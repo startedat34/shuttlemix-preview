@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShuttleMix Preview</title>
+  <style>
+    :root {
+      --bg: #eef4ff;
+      --panel: #ffffff;
+      --card: #f5f8ff;
+      --text: #1b2340;
+      --muted: #5f6d94;
+      --accent: #4f6fff;
+      --ok: #dff6e8;
+      --ok-border: #7ecfa0;
+      --skip: #fde7e8;
+      --skip-border: #ef9ba0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top, #dbe8ff, var(--bg) 48%);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+    }
+    .stage {
+      width: min(1200px, 100%);
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      align-items: start;
+    }
+    .device {
+      background: #e7eeff;
+      border-radius: 26px;
+      padding: 10px;
+      border: 1px solid #c8d5fb;
+      box-shadow: 0 14px 32px rgba(49, 79, 157, 0.2);
+      min-height: 650px;
+      resize: both;
+      overflow: auto;
+      min-width: 290px;
+    }
+    .screen {
+      background: linear-gradient(180deg, #fafdff, #eef4ff);
+      border-radius: 20px;
+      min-height: 630px;
+      border: 1px solid #d2ddfb;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .top {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid #d8e2ff;
+    }
+    .time {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .title {
+      font-size: 34px;
+      line-height: 1;
+      margin: 0;
+      letter-spacing: 0.3px;
+    }
+    .subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid #d8e2ff;
+    }
+    .tab {
+      text-align: center;
+      padding: 12px 6px;
+      color: #6f7ca3;
+      font-size: 14px;
+    }
+    .tab.active {
+      color: #4f6fff;
+      border-bottom: 2px solid #4f6fff;
+    }
+    .content {
+      padding: 14px 14px 16px;
+      display: grid;
+      gap: 12px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 28px;
+    }
+    .header-row {
+      display: grid;
+      grid-template-columns: 40px 1.8fr 1fr 1fr 1fr 1fr;
+      color: #6a769f;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 0 10px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 40px 1.8fr 1fr 1fr 1fr 1fr;
+      align-items: center;
+      background: var(--card);
+      border-radius: 12px;
+      padding: 10px;
+      gap: 4px;
+      border: 1px solid #e1e9ff;
+    }
+    .row .name { font-weight: 600; }
+    .row .skill { color: #4f6fff; font-weight: 700; }
+    .row.priority {
+      background: linear-gradient(90deg, #e6f8ee, #dcf4e7);
+      border-color: var(--ok-border);
+    }
+    .row.skip {
+      background: linear-gradient(90deg, #feeff0, #fde6e8);
+      border-color: var(--skip-border);
+    }
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: #2f3e67;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .dot.on-priority { background: #2ab36b; }
+    .dot.on-skip { background: #d9585f; }
+    .card {
+      background: var(--panel);
+      border: 1px solid #d8e3ff;
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .pair-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
+    }
+    .pair {
+      background: #eef3ff;
+      border-radius: 10px;
+      padding: 10px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      margin: 3px 3px 0 0;
+      background: #e5ecff;
+      color: #3b4e84;
+    }
+    .tag.good { background: #dcf4e7; color: #246547; }
+    .tag.warn { background: #fff0d8; color: #8d5f1f; }
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 8px;
+      font-weight: 600;
+      color: #ffffff;
+      background: #6f84d7;
+    }
+    button.primary { background: var(--accent); }
+    .muted { color: var(--muted); font-size: 13px; }
+    .history-item {
+      border-left: 3px solid #4f6fff;
+      padding: 8px 10px;
+      background: #eef3ff;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+    .tablet {
+      grid-column: span 2;
+      min-height: 500px;
+    }
+    .tablet .screen {
+      min-height: 480px;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 12px;
+      padding: 12px;
+    }
+    @media (max-width: 920px) {
+      .tablet { grid-column: span 1; }
+      .split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="device">
+      <div class="screen">
+        <div class="top">
+          <div class="time">9:41</div>
+          <h1 class="title">ShuttleMix</h1>
+          <div class="subtitle">Badminton matchmaking</div>
+        </div>
+        <div class="tabs">
+          <div class="tab active">Players</div>
+          <div class="tab">Match</div>
+          <div class="tab">History</div>
+        </div>
+        <div class="content">
+          <h2>Player roster</h2>
+          <div class="header-row"><div>#</div><div>Name</div><div>Skill</div><div>Games</div><div>Priority</div><div>Skip</div></div>
+          <div class="row"><div>1</div><div class="name">Bima</div><div class="skill">7.5</div><div>4</div><div><div class="dot"></div></div><div><div class="dot"></div></div></div>
+          <div class="row"><div>2</div><div class="name">Siti</div><div class="skill">6.0</div><div>4</div><div><div class="dot"></div></div><div><div class="dot"></div></div></div>
+          <div class="row"><div>3</div><div class="name">Rafi</div><div class="skill">8.0</div><div>5</div><div><div class="dot"></div></div><div><div class="dot"></div></div></div>
+          <div class="row priority"><div>4</div><div class="name">Dewi</div><div class="skill">5.5</div><div>3</div><div><div class="dot on-priority"></div></div><div><div class="dot"></div></div></div>
+          <div class="row"><div>5</div><div class="name">Ari</div><div class="skill">7.0</div><div>4</div><div><div class="dot"></div></div><div><div class="dot"></div></div></div>
+          <div class="row"><div>6</div><div class="name">Nia</div><div class="skill">6.5</div><div>4</div><div><div class="dot"></div></div><div><div class="dot"></div></div></div>
+          <div class="row skip"><div>7</div><div class="name">Hana</div><div class="skill">4.0</div><div>2</div><div><div class="dot"></div></div><div><div class="dot on-skip"></div></div></div>
+          <div class="row"><div>8</div><div class="name">Lina</div><div class="skill">8.5</div><div>5</div><div><div class="dot"></div></div><div><div class="dot"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="device">
+      <div class="screen">
+        <div class="top">
+          <div class="time">9:41</div>
+          <h1 class="title">Next Match</h1>
+          <div class="subtitle">Court 1 assignment</div>
+        </div>
+        <div class="content">
+          <div class="card">
+            <div class="muted">Generated from fairness + skill balance + repeat avoidance</div>
+            <div class="pair-grid">
+              <div class="pair"><strong>Pair A</strong><br>Dewi (5.5)<br>Rafi (8.0)<br><span class="muted">Avg 6.75</span></div>
+              <div><strong>VS</strong></div>
+              <div class="pair"><strong>Pair B</strong><br>Siti (6.0)<br>Ari (7.0)<br><span class="muted">Avg 6.50</span></div>
+            </div>
+            <div style="margin-top:8px;">
+              <span class="tag good">Games fairness: OK</span>
+              <span class="tag good">Skill proximity: Good</span>
+              <span class="tag">Repeat pairing avoided</span>
+              <span class="tag warn">Priority honored: Dewi</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button>Reroll</button>
+            <button>Lock</button>
+            <button class="primary">Confirm</button>
+          </div>
+          <div class="card">
+            <strong>Why this was selected</strong>
+            <p class="muted">No player remains 2 games behind the highest after scheduling. Priority player included. Lowest average-skill delta among valid lineups.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="device">
+      <div class="screen">
+        <div class="top">
+          <div class="time">9:41</div>
+          <h1 class="title">History</h1>
+          <div class="subtitle">Recent rotations</div>
+        </div>
+        <div class="content">
+          <div class="card">
+            <div><strong>Most played:</strong> Lina (5)</div>
+            <div><strong>Least played:</strong> Hana (2)</div>
+            <div><strong>Avg pair delta:</strong> 0.42</div>
+          </div>
+          <div class="history-item">21:15 - Dewi/Rafi vs Siti/Ari <span class="tag good">Balanced</span></div>
+          <div class="history-item">20:58 - Bima/Lina vs Nia/Rafi <span class="tag">Same 4, new pairs</span></div>
+          <div class="history-item">20:41 - Siti/Ari vs Dewi/Bima <span class="tag warn">Combination pool narrowing</span></div>
+          <div class="card">
+            <div class="muted">Exhaustion mode triggers only when unique pairings are depleted for the same group of 4 players.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="device tablet">
+      <div class="screen">
+        <div class="top">
+          <h1 class="title">Adaptive Layout Preview</h1>
+          <div class="subtitle">Phone / tablet / resizable testing window</div>
+        </div>
+        <div class="split">
+          <div class="card">
+            <strong>Players pane</strong>
+            <p class="muted">Resizable container keeps table and toggles intact with horizontal scroll if needed.</p>
+            <div class="row priority"><div>4</div><div class="name">Dewi</div><div class="skill">5.5</div><div>3</div><div><div class="dot on-priority"></div></div><div><div class="dot"></div></div></div>
+            <div class="row skip"><div>7</div><div class="name">Hana</div><div class="skill">4.0</div><div>2</div><div><div class="dot"></div></div><div><div class="dot on-skip"></div></div></div>
+          </div>
+          <div class="card">
+            <strong>Match pane</strong>
+            <p class="muted">Side-by-side details on large screens to speed up operator workflow.</p>
+            <span class="tag good">Fairness guard active</span>
+            <span class="tag good">Skill-balanced pairs</span>
+            <span class="tag">Repeat pairing minimized</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
