@@ -211,14 +211,13 @@
 
   <script>
     const defaultPlayers = [
-      { id: crypto.randomUUID(), name: "Bima", skill: 7.5, matches: 4, priority: false, skip: false },
-      { id: crypto.randomUUID(), name: "Siti", skill: 6.0, matches: 4, priority: false, skip: false },
-      { id: crypto.randomUUID(), name: "Rafi", skill: 8.0, matches: 5, priority: false, skip: false },
-      { id: crypto.randomUUID(), name: "Dewi", skill: 5.5, matches: 3, priority: true, skip: false },
-      { id: crypto.randomUUID(), name: "Ari", skill: 7.0, matches: 4, priority: false, skip: false },
-      { id: crypto.randomUUID(), name: "Nia", skill: 6.5, matches: 4, priority: false, skip: false },
-      { id: crypto.randomUUID(), name: "Hana", skill: 4.0, matches: 2, priority: false, skip: true },
-      { id: crypto.randomUUID(), name: "Lina", skill: 8.5, matches: 5, priority: false, skip: false }
+  { id: crypto.randomUUID(), name: "Joshua", skill: 6.0, matches: 0, priority: false, skip: false },
+  { id: crypto.randomUUID(), name: "Julius", skill: 6.0, matches: 0, priority: false, skip: false },
+  { id: crypto.randomUUID(), name: "Michael", skill: 7.0, matches: 0, priority: false, skip: false },
+  { id: crypto.randomUUID(), name: "Nopi", skill: 4.0, matches: 0, priority: false, skip: false },
+  { id: crypto.randomUUID(), name: "Open", skill: 4.0, matches: 0, priority: false, skip: false },
+  { id: crypto.randomUUID(), name: "Michelle", skill: 4.0, matches: 0, priority: false, skip: false },
+  { id: crypto.randomUUID(), name: "Sendy", skill: 5.0, matches: 0, priority: false, skip: false }
     ];
 
     let players = JSON.parse(localStorage.getItem("shuttlemix_players") || "null") || defaultPlayers;
