@@ -126,7 +126,7 @@ overflow-y: visible;
 padding-bottom: 6px;
 }
 .table-inner {
-min-width: 560px;
+min-width: 500px;
 }
 /* Fixed pixel columns — never shrink, always scroll if needed */
 .header-row, .row {
@@ -274,7 +274,10 @@ padding: 4px 10px; text-align: left; font-weight: 600;
 @media (max-width: 760px) {
 body {
 padding: 0;
+margin: 0;
 display: block;
+background: linear-gradient(180deg, #fafdff, #eef4ff);
+min-height: 100vh;
 }
 .device {
 width: 100%;
@@ -286,18 +289,22 @@ padding: 0;
 box-shadow: none;
 resize: none;
 overflow: visible;
+background: transparent;
 }
 .screen {
 min-height: 100vh;
 border-radius: 0;
 border: 0;
+background: transparent;
 }
 .view { padding: 10px; }
 .card { padding: 10px; border-radius: 12px; }
+.table-inner { min-width: 0; width: 100%; }
+.table-scroll { overflow-x: visible; }
 .header-row, .row {
-font-size: 12px;
-grid-template-columns: 24px 120px 46px 30px 54px 44px 54px 44px;
-gap: 3px;
+font-size: 11px;
+grid-template-columns: 20px 1fr 36px 26px 40px 36px 40px 36px;
+gap: 2px;
 }
 button.small { padding: 4px 5px; font-size: 10px; }
 .pair-grid { grid-template-columns: 1fr; }
